@@ -6,7 +6,7 @@ import Test from './Client/Body/Test'
 export const MainComponent = (props) => {
     return (
         <div>
-            <Body />
+            {/* <Body /> */}
             <Test />
         </div>
     )

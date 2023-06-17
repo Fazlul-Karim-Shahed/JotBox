@@ -7,7 +7,7 @@
         "leftcol leftdragbar tabpages rightdragbar rightcol"
         "leftcol leftdragbar footer footer footer";
     grid-template-rows: min-content 0fr 1000fr 1fr;
-    grid-template-columns: 2fr 6px 2fr 6px 6fr;
+    grid-template-columns: 2fr 5px 3fr 5px 6fr;
 }
 
 /*****************************/
@@ -25,7 +25,7 @@
 }
 
 #tabpages {
-    background-color: #f0dada;
+    background-color: #daedf0;
     overflow: auto;
     grid-area: tabpages;
 }
@@ -37,7 +37,7 @@
 }
 
 #rightcol {
-    background-color: #f0eaea;
+    background-color: #eee;
     overflow: auto;
     grid-area: rightcol;
 }
