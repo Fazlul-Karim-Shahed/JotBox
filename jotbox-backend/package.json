@@ -1,0 +1,11 @@
+{
+  "name": "jotbox-backend",
+  "version": "1.0.0",
+  "description": "JotBox is a online note keeping app.",
+  "main": "Server.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "author": "Fazlul Karim Shahed",
+  "license": "ISC"
+}
