@@ -1,19 +1,37 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Body from './Client/Body/Body'
-import Test from './Client/Body/Test'
+import Body from './Body/Body'
+import Header from './Header/Header'
+import { AUTHENTICATED } from '../Redux/ActionTypes'
+import { checkAuth } from '../Function/AuthFunctions'
+// import Footer from './Footer/Footer'
 
-export const MainComponent = (props) => {
+
+const mapStateToProps = (state) => {
+    return {
+        decodedToken: state.decodedToken
+    }
+
+}
+
+
+const MainComponent = (props) => {
+
+
+    props.dispatch(AUTHENTICATED)
+    if (checkAuth() && props.decodedToken._id != undefined) {
+        
+    }
+
     return (
         <div>
-            {/* <Body /> */}
-            <Test />
+            <Header />
+            <Body />
+            {/* <Footer /> */}
         </div>
     )
 }
 
-const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainComponent)
+export default connect(mapStateToProps)(MainComponent)

@@ -1,0 +1,52 @@
+
+
+
+.chatName{
+   display: block;
+   background-image: linear-gradient(to right, red,indigo,violet);
+   padding: 7px 0px;
+}
+
+.friendList{
+    display: none;
+}
+
+.scroll{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+@media only screen and (max-width: 764px) {
+    .showUser {
+        display: none;
+    }
+
+    .chatName {
+        display: none;
+    }
+
+    .friendList{
+        display: block;
+         background-image: linear-gradient(to right, red , indigo);
+        padding: 10px;
+        border-radius: 20px;
+        
+    }
+
+    .friendListDiv{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .threeDot{
+        width: 30px;
+        padding: 2px;
+        background-color: red;
+        margin: 5px;
+    }
+
+    
+}
