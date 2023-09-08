@@ -19,7 +19,7 @@ app.use(express.json({ limit: '50mb' }));
 let server = http.createServer(app)
 let io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'https://jot-box.web.app',
         methods: ['GET', 'POST']
     }
 
