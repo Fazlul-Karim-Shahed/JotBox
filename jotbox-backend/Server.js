@@ -1,4 +1,3 @@
-
 require('express-async-errors')
 const express = require('express')
 const dotenv = require('dotenv')
@@ -10,6 +9,7 @@ const UserRouter = require('./Routers/UserRouter')
 const ChatRoomRouter = require('./Routers/ChatRoomRouter')
 const MessageRouter = require('./Routers/MessageRouter')
 
+// console.log(`${new Date().toDateString().slice(4, -4)} ${new Date().toLocaleString().slice(10,)}`)
 
 dotenv.config()
 const app = express()

@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import { createMessage } from '../../Api/MessageApi'
 import { ADD_CURRENT_ROOM_MESSAGE } from '../../Redux/ActionTypes'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 
 const mapStateToProps = (state) => {
@@ -20,6 +22,8 @@ const mapStateToProps = (state) => {
 
 export const ChatBox = (props) => {
 
+    console.log(new Date().toString())
+
 
     useEffect(() => {
 
@@ -34,28 +38,33 @@ export const ChatBox = (props) => {
     }, [props.socket])
 
     useEffect(() => {
-        
+
     })
 
     let showAllMessage
 
-    if (props.currentRoomMessage.length === 0) { showAllMessage = <h5>Mo message found</h5> }
+    if (props.currentRoomMessage.length === 0) { showAllMessage = <h5 className='mt-5 text-center'>No message found</h5> }
     else {
         showAllMessage = props.currentRoomMessage.map(item => {
 
+            // console.log(item.createdAt)
+
             return (
+
 
 
                 <div className='w-100 my-4'>
 
                     <div style={item.sender._id === props.decodedToken._id ? { backgroundImage: 'linear-gradient(to right, green,  indigo' } : { backgroundImage: 'linear-gradient(to right, red,  indigo' }} className={item.sender._id === props.decodedToken._id ? 'text-start w-50 ms-auto rounded rounded-5 p-3 text-light' : 'text-start w-50 me-auto rounded rounded-5 p-3 text-light'}> {item.message}</div>
 
-                    <div className={item.sender._id === props.decodedToken._id ? 'text-end ms-auto me-4 mt-1' : 'text-start me-auto ms-4 mt-1'}>{new Date(item.createdAt).toUTCString().slice(17, 25)} {new Date(item.createdAt).toUTCString().slice(3, 12)}</div>
+                    <div className={item.sender._id === props.decodedToken._id ? 'text-end ms-auto me-3 mt-1' : 'text-start me-auto ms-3 mt-1'}>{item.sendingTime}</div>
 
                 </div>
             )
         })
     }
+
+    console.log(" Now date:  ", )
 
 
     const scrollBottom = () => {
@@ -72,10 +81,8 @@ export const ChatBox = (props) => {
                 {showAllMessage}
             </div>
 
-            <br /><br /><br /> <br /><br />
 
-
-            <div className='position-sticky bottom-0 w-100 mb-3'>
+            <div className='position-sticky bottom-0 w-100'>
                 <Formik
 
                     initialValues={{
@@ -85,10 +92,12 @@ export const ChatBox = (props) => {
 
 
                     onSubmit={(val, { resetForm }) => {
-                        
+
 
                         if (val.message != '') {
-                            let data = { sender: props.decodedToken, receiver: props.selectedChatUser, message: val.message, chatRoomId: props.currentChatRoomId, createdAt: new Date().toUTCString() }
+
+                            let sendingTime = `${new Date().toDateString().slice(4, -4)} AT ${String(`${new Date().toDateString().slice(4, -4)} AT ${new Date().toLocaleTimeString(undefined, { hour12: true })} `).toUpperCase().slice(10,) } `
+                            let data = { sender: props.decodedToken, receiver: props.selectedChatUser, message: val.message, chatRoomId: props.currentChatRoomId, sendingTime: sendingTime }
 
 
                             props.socket.emit('message', data)
@@ -109,7 +118,8 @@ export const ChatBox = (props) => {
                             <form style={{ backgroundColor: 'indigo' }} className='p-2 rounded bg-gradient' onSubmit={handleSubmit} action="">
 
                                 <input className='w-75 me-2 p-2 rounded rounded-5' placeholder='Write message' type="text" name='message' onChange={handleChange} value={values.message} />
-                                <button onClick={scrollBottom} className='ps-3 ms-1 btn btn-light' type="submit"> <a href="#test"><img src="/send1.png" className='img-fluid' width={'20px'} alt="" /></a> </button>
+                                {/* <img src="https://cdn-icons-png.flaticon.com/512/3106/3106856.png" className='img-fluid' width={'20px'} alt="" /> */}
+                                <button onClick={scrollBottom} className='ps-2 pe-1 pt-1 pb-1 rounded rounded-5' type="submit"> <img src="https://cdn-icons-png.flaticon.com/128/3682/3682321.png" className='img-fluid' width={'30px'} alt="" /></button>
 
                             </form>
                         </div>

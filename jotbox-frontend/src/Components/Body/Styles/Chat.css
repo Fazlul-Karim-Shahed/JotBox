@@ -1,23 +1,19 @@
-
-
-
-.chatName{
-   display: block;
-   background-image: linear-gradient(to right, red,indigo,violet);
-   padding: 7px 0px;
+.chatName {
+    display: block;
+    background-image: linear-gradient(to right, red, indigo, violet);
+    padding: 7px 0px;
 }
 
-.friendList{
+.friendList {
     display: none;
 }
 
-.scroll{
+.scroll {
     width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }
-
 
 @media only screen and (max-width: 764px) {
     .showUser {
@@ -28,25 +24,22 @@
         display: none;
     }
 
-    .friendList{
+    .friendList {
         display: block;
-         background-image: linear-gradient(to right, red , indigo);
+        background-image: linear-gradient(to right, red, indigo);
         padding: 10px;
         border-radius: 20px;
-        
     }
 
-    .friendListDiv{
+    .friendListDiv {
         display: flex;
         justify-content: space-between;
     }
 
-    .threeDot{
+    .threeDot {
         width: 30px;
         padding: 2px;
         background-color: red;
         margin: 5px;
     }
-
-    
 }

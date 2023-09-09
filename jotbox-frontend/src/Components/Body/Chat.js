@@ -5,19 +5,24 @@ import { Toast } from 'reactstrap'
 import { createChatRoom } from '../../Api/ChatApi'
 import io from 'socket.io-client'
 import ChatBox from './ChatBox'
-import { CURRENT_CHAT_ROOM_ID, CURRENT_ROOM_MESSAGE, SELECTED_CHAT_USER_ID } from '../../Redux/ActionTypes'
+import { CURRENT_CHAT_ROOM_ID, CURRENT_ROOM_MESSAGE, SELECTED_CHAT_USER } from '../../Redux/ActionTypes'
 import { getRoomMessage } from '../../Api/MessageApi'
 import './Styles/Chat.css'
+import Spinner from './Spinner/Spinner'
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 
 
-const socket = io.connect("http://localhost:1229")
+const socket = io.connect(process.env.REACT_APP_BACKEND)
 
 const mapStateToProps = (state) => {
 
     return {
         decodedToken: state.decodedToken,
         selectedChatUser: state.selectedChatUser,
+        authenticated: state.authenticated
     }
 }
 
@@ -25,12 +30,17 @@ const mapStateToProps = (state) => {
 export const Chat = (props) => {
 
     const [allUser, setAllUser] = useState([])
+    const [spinner, setSpinner] = useState(false)
 
 
 
     useEffect(() => {
 
+        setSpinner(true)
+
         axios.get(process.env.REACT_APP_BACKEND + '/api/user/').then(data => {
+
+            setSpinner(false)
 
             setAllUser(data.data.data)
 
@@ -43,19 +53,27 @@ export const Chat = (props) => {
 
     const selectChat = (item) => {
 
+        toggle()
+
+        setSpinner(true)
+
         if (props.decodedToken._id != undefined) {
             createChatRoom(item._id, props.decodedToken._id).then(data => {
 
                 socket.emit('join_room', data.data._id)
-                props.dispatch(SELECTED_CHAT_USER_ID(item))
+                props.dispatch(SELECTED_CHAT_USER(item))
                 props.dispatch(CURRENT_CHAT_ROOM_ID(data.data._id))
 
                 getRoomMessage(data.data._id).then(data => {
+                    setSpinner(false)
                     // console.log(data)
                     if (!data.error) {
                         props.dispatch(CURRENT_ROOM_MESSAGE(data.data))
+
+
                     }
                     else props.dispatch(CURRENT_ROOM_MESSAGE([]))
+
                 })
 
             })
@@ -67,13 +85,19 @@ export const Chat = (props) => {
 
     }
 
-    console.log(allUser)
+    const scrollBottom = () => {
+
+        document.body.scrollTop == document.getElementsByClassName('chatBox')[0].scrollHeight
+        document.documentElement.scrollTop = document.getElementsByClassName('chatBox')[0].scrollHeight
+    }
+
 
     let showAllUser
     if (allUser === undefined) return showAllUser = <div></div>
     if (allUser.length === 0) { showAllUser = <div></div> }
     else {
         showAllUser = allUser.map((item, index) => {
+
 
             if (item._id != props.decodedToken._id) {
                 return (
@@ -86,6 +110,9 @@ export const Chat = (props) => {
             }
 
         })
+
+        scrollBottom()
+
     }
 
     const toggle = () => {
@@ -98,6 +125,15 @@ export const Chat = (props) => {
             document.getElementsByClassName('showUserMobile')[0].classList.add('d-none')
         }
     }
+
+
+
+    const leaveChat = () => {
+        toggle()
+        props.dispatch(CURRENT_ROOM_MESSAGE([]))
+        props.dispatch(SELECTED_CHAT_USER({}))
+    }
+
 
 
     return (
@@ -123,8 +159,9 @@ export const Chat = (props) => {
                                 <div className='text-dark bg-light rounded p-1'>{props.selectedChatUser.username}</div>
                             </div>
 
-                            <div className='showUserMobile d-none'>
+                            <div className='showUserMobile d-none mb-3'>
                                 {showAllUser}
+                                {props.authenticated ? <h6 className='bg-primary rounded d-inline p-2' style={{ cursor: 'pointer' }} onClick={leaveChat}><FontAwesomeIcon style={{transform:'scaleX(-1)'}} className='me-1' icon={faArrowRightFromBracket} /> Leave Chat </h6> : <div></div>}
                             </div>
                         </div>
 
@@ -132,9 +169,13 @@ export const Chat = (props) => {
                     </h2>
 
 
-                    <ChatBox socket={socket} />
+                    <div className='chatBox'>
+                        <ChatBox socket={socket} />
+                    </div>
                 </div>
             </div>
+
+            {spinner ? <Spinner /> : ''}
         </div>
     )
 }

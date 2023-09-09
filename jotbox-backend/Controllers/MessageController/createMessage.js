@@ -13,8 +13,10 @@ const createMessage = async (req, res) => {
             sender: sender,
             receiver: receiver,
             message: message,
-            chatRoomId: chatRoomId
+            chatRoomId: chatRoomId,
         })
+
+
 
         newMessage = await newMessage.save()
 

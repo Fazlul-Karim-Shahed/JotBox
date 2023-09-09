@@ -19,7 +19,7 @@ export const SET_AUTH = decodedToken => {
 }
 
 
-export const SELECTED_CHAT_USER_ID = obj => {
+export const SELECTED_CHAT_USER = obj => {
     return {
         type: 'SELECTED_CHAT_USER',
         value: {

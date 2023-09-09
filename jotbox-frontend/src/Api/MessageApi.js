@@ -6,7 +6,7 @@ export const createMessage = (sender, receiver, message, chatRoomId) => {
         sender: sender,
         receiver: receiver,
         message: message,
-        chatRoomId: chatRoomId
+        chatRoomId: chatRoomId,
     }).then(data => {
         return data.data
     })
