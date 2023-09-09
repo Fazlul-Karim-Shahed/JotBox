@@ -7,13 +7,14 @@ const createMessage = async (req, res) => {
 
     if (checkRequiredFields(req.body, ['sender', 'receiver', 'message', 'chatRoomId'])) {
 
-        let { sender, receiver, message, chatRoomId } = req.body
+        let { sender, receiver, message, chatRoomId, sendingTime } = req.body
 
         let newMessage = new MessageSchema({
             sender: sender,
             receiver: receiver,
             message: message,
             chatRoomId: chatRoomId,
+            sendingTime: sendingTime
         })
 
 

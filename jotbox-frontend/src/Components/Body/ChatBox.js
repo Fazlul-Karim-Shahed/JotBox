@@ -64,7 +64,7 @@ export const ChatBox = (props) => {
         })
     }
 
-    console.log(" Now date:  ", )
+    console.log(" Now date:  ",)
 
 
     const scrollBottom = () => {
@@ -96,7 +96,7 @@ export const ChatBox = (props) => {
 
                         if (val.message != '') {
 
-                            let sendingTime = `${new Date().toDateString().slice(4, -4)} AT ${String(`${new Date().toDateString().slice(4, -4)} AT ${new Date().toLocaleTimeString(undefined, { hour12: true })} `).toUpperCase().slice(10,) } `
+                            let sendingTime = `${new Date().toDateString().slice(4, -4)} AT ${String(`${new Date().toDateString().slice(4, -4)} AT ${new Date().toLocaleTimeString(undefined, { hour12: true })} `).toUpperCase().slice(10,)} `
                             let data = { sender: props.decodedToken, receiver: props.selectedChatUser, message: val.message, chatRoomId: props.currentChatRoomId, sendingTime: sendingTime }
 
 
@@ -104,7 +104,7 @@ export const ChatBox = (props) => {
 
                             props.dispatch(ADD_CURRENT_ROOM_MESSAGE(data))
 
-                            createMessage(props.decodedToken._id, props.selectedChatUser._id, val.message, props.currentChatRoomId)
+                            createMessage(props.decodedToken._id, props.selectedChatUser._id, val.message, props.currentChatRoomId, sendingTime)
 
                             resetForm({ val: '' })
                         }

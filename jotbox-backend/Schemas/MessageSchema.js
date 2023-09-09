@@ -8,7 +8,7 @@ const MessageSchema = model('Message', Schema({
     chatRoomId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChatRoom', required: true },
     sendingTime: {
         type: String,
-        default: `${new Date().toDateString().slice(4, -4)} AT ${new Date().toLocaleString().slice(10,)} `
+        // default: `${new Date().toDateString().slice(4, -4)} AT ${new Date().toLocaleString().slice(10,)} `
     }
 
 }, { timestamps: true }))
