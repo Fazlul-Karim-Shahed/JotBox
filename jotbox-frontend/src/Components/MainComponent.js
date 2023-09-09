@@ -20,7 +20,13 @@ const MainComponent = (props) => {
 
     props.dispatch(AUTHENTICATED)
     if (checkAuth() && props.decodedToken._id != undefined) {
-        
+
+        if ("Notification" in window) {
+            Notification.requestPermission().then(data => {
+                console.log(data)
+            })
+        }
+
     }
 
     return (

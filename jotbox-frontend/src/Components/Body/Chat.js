@@ -142,7 +142,7 @@ export const Chat = (props) => {
                 <div className="col-md-3 border-end">
 
 
-                    <div className='showUser'>
+                    <div className='showUser position-sticky top-0'>
                         <h2 className='text-center my-4'>Friend List</h2>
                         {showAllUser}
                     </div>

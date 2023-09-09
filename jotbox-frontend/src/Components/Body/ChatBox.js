@@ -27,12 +27,28 @@ export const ChatBox = (props) => {
 
     useEffect(() => {
 
-
         props.socket.on('reply', (data) => {
-            // console.log('effect', data)
+            console.log('From notification: ', data.sender)
             props.dispatch(ADD_CURRENT_ROOM_MESSAGE(data))
 
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+
+                    let notification = new Notification(data.sender.username, {
+                        body: data.message,
+                    });
+
+                }
+            });
+
+
+
         })
+
+
+
+
+
 
 
     }, [props.socket])
@@ -57,7 +73,7 @@ export const ChatBox = (props) => {
 
                     <div style={item.sender._id === props.decodedToken._id ? { backgroundImage: 'linear-gradient(to right, green,  indigo' } : { backgroundImage: 'linear-gradient(to right, red,  indigo' }} className={item.sender._id === props.decodedToken._id ? 'text-start w-50 ms-auto rounded rounded-5 p-3 text-light' : 'text-start w-50 me-auto rounded rounded-5 p-3 text-light'}> {item.message}</div>
 
-                    <div className={item.sender._id === props.decodedToken._id ? 'text-end ms-auto me-3 mt-1' : 'text-start me-auto ms-3 mt-1'}>{item.sendingTime}</div>
+                    <div className={item.sender._id === props.decodedToken._id ? 'text-end ms-auto me-3 mt-1 small' : 'text-start me-auto ms-3 mt-1 small'}>{item.sendingTime}</div>
 
                 </div>
             )
@@ -97,6 +113,7 @@ export const ChatBox = (props) => {
                         if (val.message != '') {
 
                             let sendingTime = `${new Date().toDateString().slice(4, -4)} AT ${String(`${new Date().toDateString().slice(4, -4)} AT ${new Date().toLocaleTimeString(undefined, { hour12: true })} `).toUpperCase().slice(10,)} `
+
                             let data = { sender: props.decodedToken, receiver: props.selectedChatUser, message: val.message, chatRoomId: props.currentChatRoomId, sendingTime: sendingTime }
 
 
